@@ -1,0 +1,36 @@
+# Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
+
+CREATE DATABASE testgrid;
+
+USE testgrid;
+
+CREATE TABLE infra_params
+(
+    `id`    INT         NOT NULL AUTO_INCREMENT,
+    `param` VARCHAR(45) NOT NULL,
+    `type`  VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `param_UNIQUE` (`param` ASC)
+);
+
+INSERT INTO infra_params
+VALUES ('1', 'MySQL_5.7', 'db'),
+       ('2', 'CentOS_7', 'os'),
+       ('3', 'OpenJDK_11', 'jdk');
+
+CREATE TABLE helm_params
+(
+    `id`             INT         NOT NULL AUTO_INCREMENT,
+    `infra_param_id` INT         NOT NULL,
+    `param_key`      VARCHAR(45) NOT NULL,
+    `param_value`    VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`infra_param_id`)
+        REFERENCES infra_params (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+INSERT INTO helm_params
+VALUES ('1', 'wso2.mysql.enabled', 'true', '1'),
+       ('2', 'wso2.mysql.version', '5.7', '1');

@@ -7,7 +7,7 @@ package infracombination
 
 import (
 	"github.com/spf13/viper"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/constant"
 )
 
 type OS string
@@ -42,7 +42,7 @@ func (g *dummyGenerator) Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Co
 
 // Generate generates a infra combination.
 func Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Combination, error) {
-	generator := viper.GetString(util.InfraCombinationGeneratorKey)
+	generator := viper.GetString(constant.InfraCombinationGeneratorKey)
 	switch generator {
 	case "dummy-generator":
 		dummyGen := &dummyGenerator{}
@@ -52,3 +52,11 @@ func Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Combination, error) {
 		return dummyGen.Generate(osList, dbList, jdkList)
 	}
 }
+
+//func ToHelmParameters(combination Combination) map[string]string {
+//	//helmParams := make(map[string]string)
+//	//switch combination.DB {
+//	//case :
+//	//
+//	//}
+//}

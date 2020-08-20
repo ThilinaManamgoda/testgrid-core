@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/constant"
 	"os"
 	"strings"
 )
@@ -17,6 +17,7 @@ import (
 type TestGridCore struct {
 	Log                       Log    `json:"log"`
 	InfraCombinationGenerator string `json:"infraCombinationGenerator"`
+	DB                        DB     `json:"db"`
 }
 
 // Log represents the TestGrid core log configurations.
@@ -24,10 +25,30 @@ type Log struct {
 	Level string `json:"level"`
 }
 
+// DB represents the TestGrid core database configurations.
+type DB struct {
+	UserName   string `json:"userName"`
+	Password   string `json:"password"`
+	Host       string `json:"host"`
+	Port       int    `json:"port"`
+	Name       int    `json:"name"`
+	LogLevel   string `json:"logLevel"`
+	MaxRetries int    `json:"maxRetries"`
+}
+
 func setDefaults() {
-	viper.SetDefault(util.LogLevelKey, util.LogLevelDefault)
+	viper.SetDefault(constant.LogLevelKey, constant.LogLevelDefault)
 	//todo
-	viper.SetDefault(util.InfraCombinationGeneratorKey, util.InfraCombinationGeneratorDefault)
+	viper.SetDefault(constant.InfraCombinationGeneratorKey, constant.InfraCombinationGeneratorDefault)
+
+	// Database defaults
+	viper.SetDefault(constant.DatabaseUserNameKey, constant.DatabaseUserNameDefault)
+	viper.SetDefault(constant.DatabasePasswordKey, constant.DatabasePasswordDefault)
+	viper.SetDefault(constant.DatabaseHostKey, constant.DatabaseHostDefault)
+	viper.SetDefault(constant.DatabasePortKey, constant.DatabasePortDefault)
+	viper.SetDefault(constant.DatabaseNameKey, constant.DatabaseNameDefault)
+	viper.SetDefault(constant.DatabaseLogLevelKey, constant.DatabaseLogLevelDefault)
+	viper.SetDefault(constant.DatabaseMaxRetriesKey, constant.DatabaseMaxRetriesDefault)
 }
 
 // Init reads in config file and ENV variables if set.
@@ -48,7 +69,7 @@ func Init(cfgFile string) {
 		viper.SetConfigName(".testgrid-core")
 	}
 	setDefaults()
-	viper.SetEnvPrefix(util.EnvPreFix)
+	viper.SetEnvPrefix(constant.EnvPreFix)
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	// If a config file is found, read it in.

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/constant"
 	"io"
 	"os"
 	"path/filepath"
@@ -17,6 +17,7 @@ import (
 )
 
 var logger logrus.Logger
+var logLevel logrus.Level
 
 // Init function initializes the log package.
 // Configuration initialization is a prerequisite.
@@ -29,7 +30,7 @@ func Init() {
 	}
 
 	ioWriter := io.MultiWriter(os.Stdout, file)
-	logLevel := getLogLevel()
+	logLevel = getLogLevel()
 	logger = logrus.Logger{
 		Out:   ioWriter,
 		Level: logLevel,
@@ -41,7 +42,7 @@ func Init() {
 }
 
 func getLogLevel() logrus.Level {
-	logLevel := viper.GetString(util.LogLevelKey)
+	logLevel := viper.GetString(constant.LogLevelKey)
 	parsedLogLevel, err := logrus.ParseLevel(logLevel)
 	if err != nil {
 		panic(err)
@@ -72,4 +73,25 @@ func ErrorAndExit(err error, exitCode int) {
 
 func Debug(msg string) {
 	logger.Debug(msg)
+}
+
+// GormLogger struct
+type GormLogger struct{}
+
+func (*GormLogger) Print(v ...interface{}) {
+	switch v[0] {
+	case "sql":
+		logger.WithFields(
+			logrus.Fields{
+				"module":        "gorm",
+				"type":          "sql",
+				"rows_returned": v[5],
+				"src":           v[1],
+				"values":        v[4],
+				"duration":      v[2],
+			},
+		).Info(v[3])
+	case "log":
+		logger.WithFields(logrus.Fields{"module": "gorm", "type": "log"}).Print(v[2])
+	}
 }

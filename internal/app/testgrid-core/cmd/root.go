@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/config"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/constant"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/log"
 )
 
@@ -31,7 +32,7 @@ func Execute() {
 
 	if err := rootCmd.Execute(); err != nil {
 		//todo child command
-		log.ErrorAndExit(errors.Wrap(err, fmt.Sprintf("Error when executing the '%s' command", rootCmd.Context())), util.OsExitCode_1)
+		log.ErrorAndExit(errors.Wrap(err, fmt.Sprintf("Error when executing the '%s' command", rootCmd.Context())), constant.OsExitCode_1)
 	}
 }
 
