@@ -45,7 +45,7 @@ var VersionCmdExamples = dedent.Dedent(`
 const GenerateTestPlansCmdShortMsg string = "Generates TestGrid plans."
 
 var GenerateTestPlansCmdLongDesc = dedent.Dedent(`
-GenerateTestPlans command generates test plans for a given testgrid.yaml definition.
+GenerateTestPlans command generates test plans for a given parent plan definition.
 		`)
 
 var GenerateTestPlansCmdExamples = dedent.Dedent(`

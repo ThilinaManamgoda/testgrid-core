@@ -65,6 +65,11 @@ func Error(msg string) {
 	logger.Error(msg)
 }
 
+func ErrorAndExit(err error, exitCode int) {
+	logger.Error(err)
+	os.Exit(exitCode)
+}
+
 func Debug(msg string) {
 	logger.Debug(msg)
 }
