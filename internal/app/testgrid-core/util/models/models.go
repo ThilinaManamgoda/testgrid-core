@@ -5,14 +5,16 @@
 // Package models contains the structs to hold data.
 package models
 
+import "github.com/wso2/testgrid-core/internal/app/testgrid-core/infracombination"
+
 // TestGridParentPlan represents the TestGrid core parent plan configuration.
 type TestGridParentPlan struct {
-	Combinations Combinations `yaml:"combinations"`
+	InfraParams InfraParams `yaml:"infraParams"`
 }
 
-// Combinations represents the TestGrid core parent plan combinations.
-type Combinations struct {
-	OS  []string `yaml:"os"`
-	JDK []string `yaml:"jdk"`
-	DB  []string `yaml:"db"`
+// InfraParams represents the TestGrid core parent plan Infra Parameters.
+type InfraParams struct {
+	OS  []infracombination.OS  `yaml:"os"`
+	JDK []infracombination.JDK `yaml:"jdk"`
+	DB  []infracombination.DB  `yaml:"db"`
 }

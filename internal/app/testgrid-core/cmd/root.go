@@ -8,8 +8,9 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/logging"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/config"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/log"
 )
 
 var cfgFile string
@@ -29,15 +30,16 @@ func Execute() {
 	rootCmd.AddCommand(generateTestPlansCmd)
 
 	if err := rootCmd.Execute(); err != nil {
-		logging.ErrorAndExit(errors.Wrap(err, fmt.Sprintf("Error when executing the '%s' command", rootCmd.Context())), util.OsExitCode_1)
+		//todo child command
+		log.ErrorAndExit(errors.Wrap(err, fmt.Sprintf("Error when executing the '%s' command", rootCmd.Context())), util.OsExitCode_1)
 	}
 }
 
 func init() {
-	cobra.OnInitialize(initConfig, logging.Init)
+	cobra.OnInitialize(initConfig, log.Init)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.testgrid-core.yaml)")
 }
 
 func initConfig() {
-	util.InitConfig(cfgFile)
+	config.Init(cfgFile)
 }

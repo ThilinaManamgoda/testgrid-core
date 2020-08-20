@@ -6,8 +6,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/logging"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/log"
 	"runtime"
 
 	"github.com/spf13/cobra"
@@ -28,8 +28,8 @@ var versionCmd = &cobra.Command{
 }
 
 func versionCommand(cmd *cobra.Command, args []string) {
-	logging.Info(fmt.Sprintf("TestGrid Core version: %v", TestGridCoreVersion))
-	logging.Info(fmt.Sprintf("Release date: %v", BuildDate))
-	logging.Info(fmt.Sprintf("OS\\Arch: %v\\%v", runtime.GOOS, runtime.GOARCH))
-	logging.Info(fmt.Sprintf("Go version: %v", runtime.Version()))
+	log.Info(fmt.Sprintf("TestGrid Core version: %v", TestGridCoreVersion))
+	log.Info(fmt.Sprintf("Release date: %v", BuildDate))
+	log.Info(fmt.Sprintf("OS\\Arch: %v\\%v", runtime.GOOS, runtime.GOARCH))
+	log.Info(fmt.Sprintf("Go version: %v", runtime.Version()))
 }

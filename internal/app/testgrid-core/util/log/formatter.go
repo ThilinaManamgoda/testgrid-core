@@ -2,7 +2,7 @@
  * Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
  */
 
-package logging
+package log
 
 import (
 	"github.com/sirupsen/logrus"
@@ -53,5 +53,5 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 			output = strings.Replace(output, "%"+k+"%", s, 1)
 		}
 	}
-	return []byte(output+ "\n"), nil
+	return []byte(output + "\n"), nil
 }

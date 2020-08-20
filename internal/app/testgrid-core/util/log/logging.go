@@ -2,8 +2,8 @@
  * Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
  */
 
-// Package logging handles the logging functionality.
-package logging
+// Package log handles the log functionality.
+package log
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ import (
 
 var logger logrus.Logger
 
-// Init function initializes the logging package.
+// Init function initializes the log package.
 // Configuration initialization is a prerequisite.
 func Init() {
 	date := time.Now().Format("02-01-2006")

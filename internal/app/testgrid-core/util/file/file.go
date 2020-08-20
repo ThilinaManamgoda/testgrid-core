@@ -7,13 +7,13 @@ package file
 
 import (
 	"github.com/pkg/errors"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/logging"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/log"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 )
 
-// Download downloads the given file.
+// Download downloads the file from the given file url.
 func Download(url *url.URL) ([]byte, error) {
 	response, err := http.Get(url.String())
 	if err != nil {
@@ -22,7 +22,7 @@ func Download(url *url.URL) ([]byte, error) {
 	defer func() {
 		err = response.Body.Close()
 		if err != nil {
-			logging.Error("Unable to close download file response body")
+			log.Error("Unable to close download file response body")
 		}
 	}()
 	responseData, err := ioutil.ReadAll(response.Body)
@@ -32,7 +32,7 @@ func Download(url *url.URL) ([]byte, error) {
 	return responseData, nil
 }
 
-// Read reads the given file.
+// Read reads file from the given file path.
 func Read(path string) ([]byte, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {

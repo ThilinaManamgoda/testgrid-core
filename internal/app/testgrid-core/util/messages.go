@@ -2,10 +2,8 @@
  * Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
  */
 
-
 // Package util contains utilities.
 package util
-
 
 import (
 	"github.com/lithammer/dedent"

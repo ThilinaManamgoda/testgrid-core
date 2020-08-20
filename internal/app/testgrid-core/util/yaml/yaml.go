@@ -2,13 +2,14 @@
  * Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
  */
 
-package util
+// Package yaml holds the implementations for YAML data handling.
+package yaml
 
 import (
 	"gopkg.in/yaml.v2"
 )
 
-func ParseYaml(data []byte, t interface{}) error {
+func Parse(data []byte, t interface{}) error {
 	err := yaml.Unmarshal(data, t)
 	if err != nil {
 		return err
