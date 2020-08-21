@@ -18,11 +18,19 @@ type TestGridCore struct {
 	Log                       Log    `json:"log"`
 	InfraCombinationGenerator string `json:"infraCombinationGenerator"`
 	DB                        DB     `json:"db"`
+	Redis                     Redis  `json:"redis"`
 }
 
 // Log represents the TestGrid core log configurations.
 type Log struct {
 	Level string `json:"level"`
+}
+
+// Redis represents the TestGrid core Redis Client configurations.
+type Redis struct {
+	Address  string `json:"address"`
+	Password string `json:"password"`
+	DB       int    `json:"db"`
 }
 
 // DB represents the TestGrid core database configurations.
@@ -39,9 +47,9 @@ type DB struct {
 func setDefaults() {
 	viper.SetDefault(constant.LogLevelKey, constant.LogLevelDefault)
 	//todo
-	viper.SetDefault(constant.InfraCombinationGeneratorKey, constant.InfraCombinationGeneratorDefault)
+	viper.SetDefault(constant.InfraCombinationGeneratorIDKey, constant.InfraCombinationGeneratorIDDefault)
 
-	// Database defaults
+	// Database defaults.
 	viper.SetDefault(constant.DatabaseUserNameKey, constant.DatabaseUserNameDefault)
 	viper.SetDefault(constant.DatabasePasswordKey, constant.DatabasePasswordDefault)
 	viper.SetDefault(constant.DatabaseHostKey, constant.DatabaseHostDefault)
@@ -49,6 +57,11 @@ func setDefaults() {
 	viper.SetDefault(constant.DatabaseNameKey, constant.DatabaseNameDefault)
 	viper.SetDefault(constant.DatabaseLogLevelKey, constant.DatabaseLogLevelDefault)
 	viper.SetDefault(constant.DatabaseMaxRetriesKey, constant.DatabaseMaxRetriesDefault)
+
+	// Redis client defaults.
+	viper.SetDefault(constant.RedisServerAddressKey, constant.RedisServerAddressDefault)
+	viper.SetDefault(constant.RedisServerPasswordKey, constant.RedisServerPasswordDefault)
+	viper.SetDefault(constant.RedisServerDBKey, constant.RedisServerDBDefault)
 }
 
 // Init reads in config file and ENV variables if set.

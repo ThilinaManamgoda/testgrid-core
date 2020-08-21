@@ -7,7 +7,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/pkg/errors"
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/db"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/infracombination"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/constant"
@@ -33,23 +32,38 @@ var generateTestPlansCmd = &cobra.Command{
 
 func generateTestPlansCommand(cmd *cobra.Command, args []string) {
 	testGridParentPlan := getTestGridParentPlan()
-	i := testGridParentPlan.InfraParams
-	c, err := infracombination.Generate(i.OS, i.DB, i.JDK)
+	infraCombinations, err := generateInfraCombinations(testGridParentPlan.InfraParams)
 	if err != nil {
 		log.ErrorAndExit(errors.Wrap(err, "Unable to generate combinations"), constant.OsExitCode_1)
 	}
+	generateDeploymentFlowsForInfraCombinations(infraCombinations, testGridParentPlan)
 
-	log.Info(fmt.Sprintf("OS %s, DB %s, JDK %s", c[0].OS, c[0].DB, c[0].JDK))
-	err = db.Init()
-	if err != nil {
-		log.ErrorAndExit(errors.Wrap(err, "Unable initiate database connection"), constant.OsExitCode_1)
+	//log.Info(fmt.Sprintf("OS %s, DB %s, JDK %s", c[0].OS, c[0].DB, c[0].JDK))
+	//err = db.Init()
+	//if err != nil {
+	//	log.ErrorAndExit(errors.Wrap(err, "Unable initiate database connection"), constant.OsExitCode_1)
+	//}
+	//hList := make([]db.HelmParam, 0)
+	//_, err = db.RetrieveHelmParamListForParamKey("wso2.mysql.enabled", &hList)
+	//if err != nil {
+	//	log.ErrorAndExit(errors.Wrap(err, "Unable to database"), constant.OsExitCode_1)
+	//}
+	//log.Info(hList[0].ParamVal)
+	//redis.Init()
+	//redis.Set("key1", hList[0])
+	//var h db.HelmParam
+	//redis.Get("key1",&h )
+	//fmt.Println(h.ParamKey)
+}
+
+func generateDeploymentFlowsForInfraCombinations(infraCombinations []infracombination.Combination, testGridParentPlan models.TestGridParentPlan) {
+	for d := range testGridParentPlan {
+
 	}
-	hList := make([]db.HelmParam, 0)
-	_, err = db.RetrieveHelmParamListForParamKey( "wso2.mysql.enabled" ,&hList)
-	if err != nil {
-		log.ErrorAndExit(errors.Wrap(err, "Unable to database"), constant.OsExitCode_1)
-	}
-	log.Info(hList[0].ParamVal)
+}
+
+func generateInfraCombinations(i models.InfraParams) ([]infracombination.Combination, error) {
+	return infracombination.Generate(i.OS, i.DB, i.JDK)
 }
 
 func init() {

@@ -36,9 +36,9 @@ Architecture and Go version.
 		`)
 
 var VersionCmdExamples = dedent.Dedent(`
-		# Get update tool version information
-		  ` + ExecutableName + ` version
-		`)
+# Get TestGrid Core distribution version information
+` + ExecutableName + ` version
+`)
 
 const GenerateTestPlansCmdShortMsg string = "Generates TestGrid plans."
 
@@ -47,6 +47,9 @@ GenerateTestPlans command generates test plans for a given parent plan definitio
 		`)
 
 var GenerateTestPlansCmdExamples = dedent.Dedent(`
-		# Generate test plans
-		  ` + ExecutableName + ` generate-test-plans --file <TESTGRID_YAML>
-		`)
+# Generate test plans
+## File hosted at a remote location.
+ ` + ExecutableName + ` generate-test-plans --file http://localhost:8000/test-grid-plan.yaml
+## File hosted resides in the file path.
+ ` + ExecutableName + ` generate-test-plans --file file:///home/user/test-grid-plan.yaml
+`)

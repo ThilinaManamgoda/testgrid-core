@@ -1,0 +1,58 @@
+infraParams:
+  os:
+    - Ubuntu_18
+    - CentOS_7
+  jdk:
+    - openjdk_11
+  db:
+    - MySQL_5.7
+helmDeployments:
+  - type: helm
+    chart: is-pattern-1
+    version: 5.1.0-1
+    dockerBuild:
+      - name: is-base-image-build
+        job: is-base-docker-build
+        type: jenkins-combination-parallel
+        staticArgs:
+          # - type: combination
+          #   key: OS
+          # - type: combination
+          #   key: JDK
+          - key: Update-level
+            value: 5.8.0.2
+        dynamicArgs:
+          - type: combination-docker-tag-ouput-data-flow
+            key: TAG
+            mappingKey: is-base-image-tag
+    inputsMap:
+      - type: dynamic-host
+        key: ingress.hostname
+      - type: input-data-flow
+        key: is-base-image-tag
+        mappingKey: is.docker.tag
+    outputsMap:
+      - type: helm
+        key: ingress.hostname
+        mappingKey: is-pattern-1.ingress.hostname
+      - type: svc
+        key: is.service
+        mappingKey: is-pattern-1.svc
+  - type: helm
+    chart: wso2is-playground
+    version: 5.1.0-1
+    dockerbuild:
+      - name: playground-docker-build
+        job: jenkins-playground-docker-build
+        type: custom
+        Args:
+          - type: input-data-flow
+            key: is-pattern-1.ingress.hostname
+            mappingKey: IS_HOSTNAME
+          - type: dynamic-docker-tag-ouput-data-flow
+            key: TAG
+            mappingKey: playground-docker-tag
+    inputsMap:
+      - type: input-data-flow
+        key: playground-docker-tag
+        mappingKey: is-pattern-1.playground.docker.tag

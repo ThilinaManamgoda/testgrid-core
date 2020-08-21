@@ -21,13 +21,14 @@ type Combination struct {
 	JDK JDK
 }
 
-// Generator is interface that wraps infra combination generation functionality.
+// Generator is the interface which wraps infra combination generation functionality.
 type Generator interface {
-	Generate(osList []OS, dbList []DB, jdkList []JDK) (Combination, error)
+	Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Combination, error)
 }
 
 //todo
 type dummyGenerator struct {
+	ID string
 }
 
 func (g *dummyGenerator) Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Combination, error) {
@@ -37,20 +38,25 @@ func (g *dummyGenerator) Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Co
 			DB:  dbList[0],
 			JDK: jdkList[0],
 		},
+		{
+			OS:  osList[1],
+			DB:  dbList[0],
+			JDK: jdkList[0],
+		},
 	}, nil
 }
 
-// Generate generates a infra combination.
+// Generate generates infra combinations.
 func Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Combination, error) {
-	generator := viper.GetString(constant.InfraCombinationGeneratorKey)
-	switch generator {
-	case "dummy-generator":
-		dummyGen := &dummyGenerator{}
-		return dummyGen.Generate(osList, dbList, jdkList)
+	generatorID := viper.GetString(constant.InfraCombinationGeneratorIDKey)
+	var generator Generator
+	switch generatorID {
+	case constant.DummyGeneratorID:
+		generator = &dummyGenerator{ID: constant.DummyGeneratorID}
 	default:
-		dummyGen := &dummyGenerator{}
-		return dummyGen.Generate(osList, dbList, jdkList)
+		generator = &dummyGenerator{ID: constant.DummyGeneratorID}
 	}
+	return generator.Generate(osList, dbList, jdkList)
 }
 
 //func ToHelmParameters(combination Combination) map[string]string {

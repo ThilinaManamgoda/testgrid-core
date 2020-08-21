@@ -48,7 +48,7 @@ setup-lint: ## Install golint
 
 .PHONY: run-lint
 run-lint: ## Run golint on the code
-	golint  ./internal/* ./cmd/*
+	golint  ./internal/... ./cmd/...
 
 .PHONY: format
 format: ## Run gofmt on the code

@@ -2,7 +2,7 @@
  * Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
  */
 
-// TODO comment
+// Package db handles database interactions.
 package db
 
 import (
@@ -63,7 +63,7 @@ func setConfigs() {
 	maxRetries = viper.GetInt(constant.DatabaseMaxRetriesKey)
 }
 
-// connect start a DB connection and returns any error occurred.
+// connect starts a DB connection and returns any error occurred.
 func connect() error {
 	url = userName + ":" + password + "@tcp(" + host + ":" + strconv.Itoa(port) + ")/" + dbName + "?charset=utf8"
 	var err error
@@ -127,19 +127,8 @@ func Retrieve(e Entity) (bool, error) {
 	return true, nil
 }
 
-func RetrieveList(e Entity, r interface{}) (bool, error) {
-	result := db.Table(e.TableName()).Where(e).Find(r)
-	if result.Error != nil {
-		if result.RecordNotFound() {
-			return false, nil
-		}
-		return false, result.Error
-	}
-	return true, nil
-}
-
 func RetrieveHelmParamListForParamKey(paramKey string, helmParams interface{}) (bool, error) {
-	result := db.Where("param_key = ?", paramKey).Find(helmParams)
+	result := db.Where(constant.HelmParamTblParamKeyQuery, paramKey).Find(helmParams)
 	if result.Error != nil {
 		if result.RecordNotFound() {
 			return false, nil

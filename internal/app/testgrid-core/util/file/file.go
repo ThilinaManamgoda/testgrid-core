@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 )
 
 // Download downloads the file from the given file url.
@@ -39,4 +40,13 @@ func Read(path string) ([]byte, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+// Write write the given data to the given file.
+func Write(filePath string, data []byte) error{
+	err := ioutil.WriteFile(filePath, data, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -15,8 +15,9 @@ const LogLevelKey = "log.level"
 const LogLevelDefault = "info"
 
 //todo
-const InfraCombinationGeneratorKey = "infraCombinationGenerator"
-const InfraCombinationGeneratorDefault = "dummy-generator"
+const InfraCombinationGeneratorIDKey = "infraCombinationGeneratorID"
+const InfraCombinationGeneratorIDDefault = "dummy-generator"
+const DummyGeneratorID = "dummy-generator"
 
 const FileFlag = "file"
 
@@ -38,3 +39,14 @@ const DatabaseMaxRetriesKey = "db.maxRetries"
 const DatabaseMaxRetriesDefault = "3"
 const HelmParamTable = "helm_params"
 const InfraParamTable = "infra_params"
+const HelmParamTblParamKeyCol = "param_key"
+const HelmParamTblParamKeyQuery = HelmParamTblParamKeyCol + " = ?"
+
+
+// Redis client constants.
+const RedisServerAddressKey = "redis.address"
+const RedisServerAddressDefault = "localhost:6379"
+const RedisServerPasswordKey = "redis.password"
+const RedisServerPasswordDefault = ""
+const RedisServerDBKey = "redis.db"
+const RedisServerDBDefault = 0
