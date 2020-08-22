@@ -75,7 +75,10 @@ func Debug(msg string) {
 	logger.Debug(msg)
 }
 
-// GormLogger struct
+func IsDebugEnabled() bool {
+	return logger.IsLevelEnabled(logrus.DebugLevel)
+}
+
 type GormLogger struct{}
 
 func (*GormLogger) Print(v ...interface{}) {

@@ -90,3 +90,19 @@ func Get(key string, t interface{}) error {
 	}
 	return nil
 }
+
+func SetBulk(m map[string]interface{}) error {
+	pipe := rdb.Pipeline()
+	for key, val := range m {
+		d, err := json.ToString(val)
+		if err != nil {
+			return errors.Wrap(err, "Unable to convert given val to string")
+		}
+		pipe.Set(ctx, key, string(d), 0)
+	}
+	_, err := pipe.Exec(ctx)
+	if err != nil {
+		return errors.Wrap(err, "Unable to insert bulk")
+	}
+	return nil
+}

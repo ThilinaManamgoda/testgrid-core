@@ -43,7 +43,7 @@ func Read(path string) ([]byte, error) {
 }
 
 // Write write the given data to the given file.
-func Write(filePath string, data []byte) error{
+func Write(filePath string, data []byte) error {
 	err := ioutil.WriteFile(filePath, data, os.ModePerm)
 	if err != nil {
 		return err

@@ -2,10 +2,11 @@
  * Copyright (c) 2020, WSO2 Inc. All Rights Reserved.
  */
 
-// Package infracombination holds logic for infracombination generation.
+// Package infracombination holds logic for infra combination related tasks.
 package infracombination
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/util/constant"
 )
@@ -19,6 +20,11 @@ type Combination struct {
 	OS  OS
 	DB  DB
 	JDK JDK
+}
+
+// String returns the string representation of the combination.
+func (c Combination) String() string {
+	return fmt.Sprintf("OS: %s, JDK: %s, DB: %s", c.OS, c.JDK, c.DB)
 }
 
 // Generator is the interface which wraps infra combination generation functionality.
@@ -58,11 +64,3 @@ func Generate(osList []OS, dbList []DB, jdkList []JDK) ([]Combination, error) {
 	}
 	return generator.Generate(osList, dbList, jdkList)
 }
-
-//func ToHelmParameters(combination Combination) map[string]string {
-//	//helmParams := make(map[string]string)
-//	//switch combination.DB {
-//	//case :
-//	//
-//	//}
-//}

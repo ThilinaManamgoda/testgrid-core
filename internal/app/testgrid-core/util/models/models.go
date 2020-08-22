@@ -6,14 +6,14 @@
 package models
 
 import (
-	"github.com/wso2/testgrid-core/internal/app/testgrid-core/deploy/helm/docker"
+	"github.com/wso2/testgrid-core/internal/app/testgrid-core/deploy/helm"
 	"github.com/wso2/testgrid-core/internal/app/testgrid-core/infracombination"
 )
 
 // TestGridParentPlan represents the TestGrid core parent plan configuration.
 type TestGridParentPlan struct {
-	InfraParams     InfraParams     `yaml:"infraParams"`
-	HelmDeployments HelmDeployments `yaml:"helmDeployments"`
+	InfraParams     InfraParams       `yaml:"infraParams"`
+	HelmDeployments []helm.Deployment `yaml:"helmDeployments"`
 }
 
 // InfraParams represents the TestGrid core parent plan Infra Parameters.
@@ -23,9 +23,16 @@ type InfraParams struct {
 	DB  []infracombination.DB  `yaml:"db"`
 }
 
-// HelmDeployments represents the TestGrid core parent plan Helm deployments.
-type HelmDeployments struct {
-	Chart        string         `yaml:"chart"`
-	Version      string         `yaml:"version"`
-	DockerBuilds []docker.Build `yaml:"version"`
+// ExecutionPlan represents the TestGrid core execution plan configuration.
+type ExecutionPlan struct {
+	ParentUUID      string            `yaml:"parentUuid"`
+	UUID            string            `yaml:"uuid"`
+	JobID           string            `yaml:"jobId"`
+	HelmDeployments []helm.Deployment `yaml:"helmDeployments"`
+}
+
+// TestPlan represents the TestGrid core command execution plan configuration.
+type TestPlan struct {
+	ID      string   `yaml:"id"`
+	DeployCMD []string `yaml:"deployCMD"`
 }

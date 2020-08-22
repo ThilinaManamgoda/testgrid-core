@@ -42,7 +42,6 @@ const InfraParamTable = "infra_params"
 const HelmParamTblParamKeyCol = "param_key"
 const HelmParamTblParamKeyQuery = HelmParamTblParamKeyCol + " = ?"
 
-
 // Redis client constants.
 const RedisServerAddressKey = "redis.address"
 const RedisServerAddressDefault = "localhost:6379"
@@ -50,3 +49,8 @@ const RedisServerPasswordKey = "redis.password"
 const RedisServerPasswordDefault = ""
 const RedisServerDBKey = "redis.db"
 const RedisServerDBDefault = 0
+
+// Execution Plan constants.
+const ExecutionPlanIDFmt = "%s-%s-%s-%s"
+const DeployCMDRedisID = "cmd-deploy:%s-%s-deployment-%d"
+const DeployCMDExePlanID = "test-plan-%s"
